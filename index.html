@@ -1,0 +1,250 @@
+<!DOCTYPE html>
+<html lang="ms">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Pengembaraan 3 Sahabat — Cabaran Ayah</title>
+<style>
+:root{--navy:#102b43;--ink:#18334a;--cream:#fff8e9;--gold:#ffd66b;--mint:#b9f0cf;--pink:#ffb7c9;--blue:#9bdcff;--shadow:0 12px 30px #08243a38}
+*{box-sizing:border-box}html,body{margin:0;width:100%;height:100%;font-family:system-ui,"Trebuchet MS",sans-serif;color:var(--ink);background:#102b43;overflow:hidden}
+button,input{font:inherit}button{cursor:pointer;border:0}
+#app{width:100vw;height:100dvh;min-height:520px;position:relative;overflow:hidden;background:linear-gradient(135deg,#8bd8ed 0%,#d5f6d7 45%,#ffe7a6 100%)}
+.sky{position:absolute;inset:0;background:radial-gradient(ellipse at 20% 15%,#fff9 0 6%,transparent 24%),radial-gradient(ellipse at 80% 10%,#fff8 0 5%,transparent 20%);pointer-events:none}
+.cloud{position:absolute;font-size:clamp(24px,4vw,54px);opacity:.7;animation:drift 24s linear infinite}.c1{top:5%;left:-5%}.c2{top:17%;right:-5%;animation-delay:-11s}
+@keyframes drift{to{transform:translateX(115vw)}}
+.screen{position:absolute;inset:0;padding:clamp(12px,2vw,26px);display:none;z-index:2}.screen.active{display:flex}
+#setup{align-items:center;justify-content:center;overflow:auto}
+.panel{background:#fff9e9ed;border:3px solid #fff;border-radius:28px;box-shadow:var(--shadow);padding:clamp(18px,2.5vw,32px);width:min(1050px,96vw);max-height:94%;overflow:auto}
+.brand{text-align:center}.brand .island{font-size:clamp(44px,7vw,88px);line-height:1.1;filter:drop-shadow(0 7px 3px #295d5838)}
+h1{font-size:clamp(28px,4vw,54px);margin:4px 0;color:#16445b;letter-spacing:-1.5px}h2{font-size:clamp(19px,2.3vw,30px);margin:0 0 12px}p{margin:5px 0 14px;color:#466174}
+.playerset{display:grid;grid-template-columns:repeat(3,1fr);gap:14px;margin:20px 0}
+.player-card{background:#fff;border:2px solid #dce9dc;border-radius:20px;padding:14px;min-width:0}.player-card label{font-weight:800;font-size:14px}.player-card input{width:100%;border:2px solid #d9e6e4;border-radius:12px;padding:10px;margin:8px 0;outline:none}.player-card input:focus{border-color:#42a8a0}.avatars{display:flex;flex-wrap:wrap;gap:5px}.avatar{font-size:24px;background:#eff7f2;border:2px solid transparent;border-radius:10px;padding:5px}.avatar.selected{border-color:#f2a93b;background:#fff2c8}
+.primary{background:linear-gradient(180deg,#ffcf58,#f4a82e);color:#54320b;font-weight:900;border-radius:16px;padding:13px 24px;box-shadow:0 5px 0 #bd7922,0 8px 15px #68431b2b;font-size:clamp(16px,1.5vw,21px);transition:.15s}.primary:active{transform:translateY(4px);box-shadow:0 1px 0 #bd7922}.secondary{background:#e6f2ee;color:#24545a;font-weight:800;border-radius:13px;padding:10px 15px}.center{text-align:center}
+#game{flex-direction:column;gap:10px}
+.topbar{height:clamp(54px,8vh,76px);display:flex;align-items:center;justify-content:space-between;gap:12px;background:#103b50ed;color:white;border:2px solid #ffffff88;border-radius:20px;padding:8px 16px;box-shadow:var(--shadow);flex-shrink:0}
+.logo{font-weight:1000;font-size:clamp(15px,2vw,25px);letter-spacing:-.5px}.logo span{color:#ffdb75}.top-actions{display:flex;gap:8px}.top-actions button{background:#ffffff20;color:white;border:1px solid #ffffff55;border-radius:12px;padding:8px 12px;font-weight:700}
+.game-layout{display:grid;grid-template-columns:minmax(0,1.75fr) minmax(270px,.8fr);gap:12px;flex:1;min-height:0}
+.board-wrap{position:relative;min-height:0;background:linear-gradient(145deg,#b6e8b5,#77c9a1);border:4px solid #fff;border-radius:24px;box-shadow:var(--shadow);overflow:hidden;padding:12px}
+.board-wrap:before{content:"";position:absolute;inset:0;background:radial-gradient(ellipse at 30% 20%,#ffffff50,transparent 45%),linear-gradient(35deg,#1a805022 25%,transparent 25% 50%,#1a805022 50% 75%,transparent 75%);background-size:auto,45px 45px;opacity:.45}
+.board-deco{position:absolute;font-size:clamp(24px,4vw,48px);opacity:.75;z-index:0}.d1{left:1%;top:2%}.d2{right:2%;top:3%}.d3{left:1%;bottom:2%}.d4{right:2%;bottom:1%}
+.board{position:relative;z-index:1;height:100%;display:grid;grid-template-columns:repeat(10,1fr);grid-template-rows:repeat(5,1fr);gap:5px}
+.tile{position:relative;border:2px solid #ffffffc9;border-radius:12px;background:linear-gradient(145deg,#fff8d9,#ffe5a1);box-shadow:0 3px 0 #bb9d59;display:flex;align-items:center;justify-content:center;flex-direction:column;min-width:0;min-height:0;transition:transform .2s}
+.tile:nth-child(5n+2){background:linear-gradient(145deg,#e5f8ff,#aee3fa);box-shadow:0 3px 0 #73b4cf}.tile:nth-child(5n+4){background:linear-gradient(145deg,#fce5f1,#f6b9d2);box-shadow:0 3px 0 #d28ba9}
+.tile .num{position:absolute;top:3px;left:5px;font-size:clamp(8px,.85vw,13px);font-weight:900;opacity:.65}
+.tile .symbol{font-size:clamp(12px,2vw,25px);line-height:1.1}
+.tile.start{background:#b9f0cf}.tile.finish{background:linear-gradient(145deg,#ffe98a,#ffbf38);border-color:#fff}
+.tile.special{outline:3px solid #ffbd3f;outline-offset:-4px}
+.tile .tokens{display:flex;gap:0;position:absolute;bottom:2px;left:50%;transform:translateX(-50%);font-size:clamp(12px,1.8vw,22px);white-space:nowrap;filter:drop-shadow(0 2px 1px #fff)}
+.tile .tokens span{margin-left:-3px;animation:bob 1.4s ease-in-out infinite alternate}
+@keyframes bob{to{transform:translateY(-4px)}}
+.side{display:flex;flex-direction:column;gap:10px;min-height:0}
+.turn-card,.question-card,.score-card{background:#fff9ed;border:3px solid white;border-radius:21px;padding:clamp(11px,1.5vw,18px);box-shadow:var(--shadow)}
+.turn-card{flex-shrink:0}.turn-head{display:flex;align-items:center;gap:10px}.big-avatar{font-size:clamp(34px,4vw,52px);background:#e7f6e9;border-radius:16px;padding:4px 10px}.turn-name{font-size:clamp(18px,2vw,25px);font-weight:1000}.turn-sub{font-size:12px;color:#64808d}
+.question-card{flex:1;min-height:0;display:flex;flex-direction:column;justify-content:center;overflow:auto}
+.host{display:flex;align-items:center;gap:10px;margin-bottom:9px}.host-face{font-size:clamp(34px,4vw,50px);background:#e5f1ff;border-radius:50%;width:58px;height:58px;display:grid;place-items:center;border:3px solid white}
+.host-text strong{display:block;font-size:15px}.host-text small{color:#66808c}.host-bubble{margin:7px 0 10px;padding:9px 12px;border-radius:14px 14px 14px 4px;background:linear-gradient(135deg,#fff1c7,#ffe1a0);border:2px solid #fff;box-shadow:0 3px 0 #d8b86d;color:#684619;font-weight:850;font-size:clamp(12px,1.15vw,15px);line-height:1.25;min-height:38px}.host-face{animation:hostBob 2s ease-in-out infinite alternate}@keyframes hostBob{to{transform:translateY(-3px) rotate(2deg)}}
+.subject{display:inline-flex;align-self:flex-start;background:#dff3ed;color:#1c6a5a;font-weight:900;border-radius:999px;padding:5px 11px;font-size:12px;margin:3px 0 9px}
+.question{font-size:clamp(18px,2.15vw,28px);font-weight:1000;line-height:1.15;margin:4px 0 12px}
+.answers{display:grid;grid-template-columns:1fr;gap:7px}.answer{background:#f0f5f2;border:2px solid #d8e7df;border-radius:13px;text-align:left;padding:10px 12px;font-weight:850;color:#25495a;font-size:clamp(13px,1.3vw,17px);transition:.15s}.answer:hover{background:#fff1c8;border-color:#efb23f;transform:translateX(3px)}.answer:disabled{opacity:.65;cursor:default}
+.feedback{margin-top:9px;padding:9px 11px;border-radius:12px;background:#eaf4ee;font-weight:750;font-size:13px;min-height:38px}.feedback.good{background:#d9f6df;color:#17603a}.feedback.bad{background:#ffebdf;color:#9b492d}
+.dice-row{display:flex;align-items:center;justify-content:space-between;gap:8px;margin-top:9px}.dice{width:54px;height:54px;display:grid;place-items:center;font-size:40px;background:white;border-radius:13px;box-shadow:0 4px 0 #d3d9d3}.dice.rolling{animation:roll .7s ease-in-out}.dice.ready{animation:pulse 1.5s infinite}
+@keyframes roll{0%{transform:rotate(0) scale(1)}30%{transform:rotate(180deg) scale(1.2)}70%{transform:rotate(330deg) scale(.9)}100%{transform:rotate(360deg) scale(1)}}
+@keyframes pulse{50%{transform:scale(1.07)}}
+.rollbtn{flex:1}.score-card{display:grid;grid-template-columns:repeat(3,1fr);gap:5px;padding:8px}.mini-score{text-align:center;font-size:12px;font-weight:850}.mini-score b{display:block;font-size:19px}
+.bottomline{color:#fff;font-weight:750;text-shadow:0 2px 3px #164a48;text-align:center;font-size:clamp(10px,1.1vw,14px);flex-shrink:0}
+.modal{position:absolute;inset:0;background:#09283dcc;z-index:10;display:none;align-items:center;justify-content:center;padding:18px}.modal.show{display:flex}.modalbox{width:min(680px,94vw);background:#fff8e9;border:4px solid white;border-radius:28px;padding:clamp(20px,3vw,38px);text-align:center;box-shadow:0 20px 70px #001c2c88;animation:pop .35s ease-out}.modalbox .celebrate{font-size:clamp(55px,9vw,100px);animation:bob .6s infinite alternate}.modalbox h2{font-size:clamp(25px,4vw,42px);color:#16445b}
+@keyframes pop{from{transform:scale(.7);opacity:0}to{transform:scale(1);opacity:1}}
+.confetti{position:absolute;inset:0;pointer-events:none;overflow:hidden}.confetti i{position:absolute;top:-20px;width:10px;height:18px;background:#ffcc50;animation:fall 3s linear infinite}.confetti i:nth-child(3n){background:#ff8ca8}.confetti i:nth-child(4n){background:#69cbe2}
+@keyframes fall{to{transform:translateY(110vh) rotate(720deg)}}
+@media(max-width:800px){#app{overflow:auto}.screen{position:relative;min-height:100dvh}.game-layout{grid-template-columns:1fr;grid-template-rows:minmax(330px,1fr) auto}.board-wrap{min-height:330px}.side{display:grid;grid-template-columns:1fr 1fr}.question-card{grid-row:span 2}.score-card{grid-column:1}.topbar{position:sticky;top:0}.bottomline{padding-bottom:8px}}
+@media(max-width:560px){.playerset{grid-template-columns:1fr}.side{display:flex}.board{gap:2px}.tile{border-radius:6px}.tile .num{font-size:8px}.board-wrap{padding:6px}.top-actions button{font-size:11px;padding:6px}}
+@media(min-aspect-ratio:17/9){.game-layout{grid-template-columns:minmax(0,1.9fr) minmax(300px,.75fr)}}
+
+/* GRAFIK NAIK TARAF: dunia pengembaraan 3D kartun */
+#app{background:linear-gradient(180deg,#68c9ec 0%,#b9eddf 42%,#f6d68d 100%)}
+#app:after{content:"";position:absolute;left:-5%;right:-5%;bottom:-8%;height:34%;background:linear-gradient(180deg,#69bd78,#287d55);border-radius:50% 50% 0 0/28% 28% 0 0;box-shadow:0 -16px 35px #ffffff38;pointer-events:none}
+.cloud{filter:drop-shadow(0 7px 3px #27677a28)}
+.board-wrap{background:linear-gradient(145deg,#8fe1b0,#38a879 58%,#217b69);border:5px solid #f9fff0;box-shadow:inset 0 0 0 3px #ffffff65,0 18px 35px #0b443b55}
+.board-wrap:after{content:"";position:absolute;inset:0;background:radial-gradient(ellipse at 50% 50%,transparent 35%,#064c3a24 100%);pointer-events:none}
+.board{gap:clamp(3px,.55vw,8px);padding:5px}
+.tile{border:2px solid #fff;box-shadow:inset 0 3px 5px #ffffffd9,inset 0 -5px 0 #8a71374a,0 5px 0 #3c7358,0 8px 12px #123b2d38;transform:translateY(0);overflow:visible}
+.tile:nth-child(5n+2){box-shadow:inset 0 3px 5px #fff,inset 0 -5px 0 #5893a94a,0 5px 0 #43839a,0 8px 12px #123b2d38}
+.tile:nth-child(5n+4){box-shadow:inset 0 3px 5px #fff,inset 0 -5px 0 #a96e8d4a,0 5px 0 #ad6684,0 8px 12px #123b2d38}
+.tile.special{animation:tileGlow 2s ease-in-out infinite alternate}
+@keyframes tileGlow{to{filter:brightness(1.12);transform:translateY(-3px)}}
+.tile .symbol{filter:drop-shadow(0 3px 1px #4c593d55);transform:translateY(-2px)}
+.tile .tokens{bottom:-5px;z-index:3;filter:drop-shadow(0 4px 2px #173b2d66)}
+.tile .tokens span{font-size:clamp(15px,2.25vw,29px);margin-left:-5px;animation:characterBounce .65s ease-in-out infinite alternate}
+@keyframes characterBounce{to{transform:translateY(-7px) rotate(5deg)}}
+.turn-card,.question-card,.score-card{border:3px solid #fff;box-shadow:inset 0 2px 0 #fff,0 10px 24px #173f3a2b}
+.big-avatar{box-shadow:inset 0 -5px 0 #5c9b7a22,0 5px 10px #234d3a20}
+.host-face{box-shadow:0 5px 12px #31566a25}
+.primary{background:linear-gradient(180deg,#ffe27d,#ffb632 75%,#ed9821);border:2px solid #fff6d9;box-shadow:0 6px 0 #bd7922,0 10px 18px #68431b35;text-shadow:0 1px #fff8}
+.primary:hover{filter:brightness(1.06);transform:translateY(-2px)}
+.answer{box-shadow:0 3px 0 #c8d8ce;transition:transform .16s,box-shadow .16s,background .16s}
+.answer:hover{box-shadow:0 5px 0 #d6a74f}
+.penalty-actions{display:flex;gap:8px;margin-top:9px;flex-wrap:wrap}
+.penalty-btn{flex:1;min-width:130px;padding:11px 9px;border-radius:13px;font-weight:950;border:2px solid white;box-shadow:0 4px 0 #0002;animation:pop .22s ease-out}
+.penalty-btn.retreat{background:linear-gradient(#ffd6c9,#ff9f86);color:#71331f}
+.penalty-btn.pass{background:linear-gradient(#d9eaff,#8bc9f5);color:#16496e}
+.penalty-btn:active{transform:translateY(3px);box-shadow:0 1px 0 #0002}
+@media(min-width:1100px){.question-card{padding:clamp(15px,1.5vw,24px)}}
+
+</style>
+</head>
+<body>
+<div id="app">
+ <div class="sky"><div class="cloud c1">☁️</div><div class="cloud c2">☁️</div></div>
+ <section id="setup" class="screen active">
+  <div class="panel">
+   <div class="brand"><div class="island">🏝️🗺️🎒</div><h1>PENGEMBARAAN 3 SAHABAT</h1><h2>✨ CABARAN AYAH! ✨</h2><p>Ayah menjadi pengacara! Jawab soalan, tempuhi cabaran dan sampai ke pulau harta karun!</p></div>
+   <h2>👨‍👧‍👦 Daftar nama pemain</h2>
+   <div class="playerset" id="playerSetup"></div>
+   <div class="center"><button class="primary" id="startBtn">🚀 MULA PENGEMBARAAN</button><p style="font-size:12px;margin-top:12px">Direka untuk dimainkan bersama di TV • Paparan melintang 16:9</p></div>
+  </div>
+ </section>
+ <section id="game" class="screen">
+  <header class="topbar"><div class="logo">🏝️ <span>PENGEMBARAAN 3 SAHABAT</span> · CABARAN AYAH</div><div class="top-actions"><button id="soundBtn">🔊 Bunyi ON</button><button id="fullBtn">⛶ Skrin penuh</button><button id="homeBtn">⌂ Menu</button></div></header>
+  <div class="game-layout">
+   <div class="board-wrap"><div class="board-deco d1">🌴</div><div class="board-deco d2">🦜</div><div class="board-deco d3">🍄</div><div class="board-deco d4">🏰</div><div class="board" id="board"></div></div>
+   <aside class="side">
+    <div class="turn-card"><div class="turn-head"><div class="big-avatar" id="activeAvatar">🧒</div><div><div class="turn-name" id="activeName">Aiman</div><div class="turn-sub" id="turnInfo">Giliran pemain 1 · Petak 0 / 50</div></div></div></div>
+    <div class="question-card">
+     <div class="host"><div class="host-face" id="hostFace">👨🏻</div><div class="host-text"><strong>AYAH · PENGACARA</strong><small id="hostSubtitle">Penjaga Pulau Harta Karun</small></div></div><div class="host-bubble" id="hostLine">“Selamat datang, pengembara! Ayah akan temankan kamu sampai ke pulau harta karun!”</div>
+     <div class="subject" id="subject">BAHASA MELAYU</div><div class="question" id="question">Tekan lontar dadu untuk mula.</div>
+     <div class="answers" id="answers"></div><div class="penalty-actions" id="penaltyActions"></div>
+     <div class="feedback" id="feedback">Ayah sudah bersedia. Giliran kamu!</div>
+     <div class="dice-row"><div class="dice ready" id="dice">🎲</div><button class="primary rollbtn" id="rollBtn">🎲 LONTAR DADU</button></div>
+    </div>
+    <div class="score-card" id="scores"></div>
+   </aside>
+  </div>
+  <div class="bottomline">🧠 Bahasa Melayu · 🔢 Matematik · 💡 Logik · 🔬 Sains · 🕌 Pendidikan Agama</div>
+ </section>
+ <div class="modal" id="modal"><div class="modalbox" id="modalbox"></div></div>
+</div>
+<script>
+const avatarChoices=["🧒","👧","🐻","🐰","🦊","🐼","🦁","🐸","🐯","🐵","🐱","🐨"];
+let players=[{name:"Aiman",avatar:"🧒",pos:0,score:0},{name:"Sara",avatar:"👧",pos:0,score:0},{name:"Bobo",avatar:"🐻",pos:0,score:0}];
+let turn=0,die=0,questionIndex=0,answered=false,soundOn=true,gameOver=false,questionPool=[],passOriginal=-1,passUsed=false;
+const questions=[
+["Bahasa Melayu","Manakah ejaan yang betul?",["Kucing","Kuching","Kuceng"],0,"Bagus! Ejaan yang betul ialah kucing."],
+["Matematik","Berapakah 5 + 3?",["6","8","9"],1,"Betul! 5 tambah 3 ialah 8."],
+["Kuiz Logik","Ayam ada 2 kaki. Berapa kaki 3 ekor ayam?",["3","5","6"],2,"Ya! 3 ekor ayam ada 6 kaki."],
+["Sains","Haiwan manakah hidup di dalam air?",["Ikan","Kucing","Ayam"],0,"Tepat! Ikan hidup di dalam air."],
+["Pendidikan Agama","Apakah kitab suci umat Islam?",["Injil","Al-Quran","Taurat"],1,"Alhamdulillah! Kitab suci umat Islam ialah Al-Quran."],
+["Bahasa Melayu","Apakah lawan perkataan 'besar'?",["Tinggi","Kecil","Panjang"],1,"Betul! Lawan besar ialah kecil."],
+["Matematik","Berapakah 12 − 4?",["6","7","8"],2,"Pandai! 12 tolak 4 ialah 8."],
+["Kuiz Logik","Saya ada jarum tetapi tidak menjahit. Apakah saya?",["Jam","Buku","Kasut"],0,"Bijak! Jawapannya ialah jam."],
+["Sains","Apakah yang diperlukan tumbuhan untuk hidup?",["Batu sahaja","Air dan cahaya matahari","Plastik"],1,"Betul! Tumbuhan perlukan air dan cahaya matahari."],
+["Pendidikan Agama","Berapakah solat fardu sehari semalam?",["3","4","5"],2,"Bagus! Ada lima waktu solat fardu."],
+["Bahasa Melayu","Pilih ayat yang betul.",["Ali makan nasi.","Ali nasi makan.","Makan Ali nasi."],0,"Tepat! Ali makan nasi."],
+["Matematik","Berapakah 5 × 2?",["7","10","12"],1,"Hebat! 5 darab 2 ialah 10."],
+["Kuiz Logik","Apakah nombor seterusnya: 2, 4, 6, 8, ...?",["9","10","12"],1,"Ya! Nombor bertambah dua, jadi 10."],
+["Sains","Organ manakah digunakan untuk bernafas?",["Paru-paru","Perut","Telinga"],0,"Betul! Kita bernafas menggunakan paru-paru."],
+["Pendidikan Agama","Apakah ucapan untuk memberi salam?",["Selamat tinggal","Assalamualaikum","Selamat malam"],1,"Bagus! Ucapkan Assalamualaikum."],
+["Bahasa Melayu","Berapakah suku kata dalam perkataan 'bu-ku'?",["1","2","3"],1,"Betul! Bu-ku mempunyai dua suku kata."],
+["Matematik","Ada 10 gula-gula. Beri 3 kepada adik. Tinggal berapa?",["6","7","8"],1,"Tepat! Sepuluh tolak tiga ialah tujuh."],
+["Kuiz Logik","Mana lebih berat: 1 kg kapas atau 1 kg besi?",["Kapas","Besi","Sama berat"],2,"Bijak! Kedua-duanya satu kilogram."],
+["Sains","Apakah planet tempat kita tinggal?",["Marikh","Bumi","Musytari"],1,"Betul! Kita tinggal di planet Bumi."],
+["Pendidikan Agama","Apakah arah umat Islam menghadap ketika solat?",["Kiblat","Utara sahaja","Timur sahaja"],0,"Betul! Kita menghadap kiblat."],
+["Bahasa Melayu","Apakah kata nama bagi tempat kita belajar?",["Sekolah","Berjalan","Cantik"],0,"Ya! Sekolah ialah tempat kita belajar."],
+["Matematik","Berapakah 20 ÷ 2?",["5","10","12"],1,"Bagus! 20 bahagi 2 ialah 10."],
+["Kuiz Logik","Saya muncul pada waktu malam dan berkelip di langit. Apakah saya?",["Bintang","Ikan","Pokok"],0,"Tepat! Bintang berkelip di langit malam."],
+["Sains","Haiwan manakah bertelur?",["Kucing","Ayam","Lembu"],1,"Betul! Ayam bertelur."],
+["Pendidikan Agama","Apakah nama bulan umat Islam berpuasa?",["Syawal","Ramadan","Rejab"],1,"Alhamdulillah! Bulan berpuasa ialah Ramadan."]
+];
+const $=id=>document.getElementById(id);
+function hostTalk(message, speak=true){
+ $("hostLine").textContent="“"+message+"”";
+ if(speak) say(message);
+}
+function buildSetup(){ $("playerSetup").innerHTML=players.map((p,i)=>`<div class="player-card"><label>PEMAIN ${i+1}</label><input maxlength="16" value="${p.name}" aria-label="Nama pemain ${i+1}" id="name${i}"><div class="avatars">${avatarChoices.map(a=>`<button class="avatar ${p.avatar===a?'selected':''}" data-player="${i}" data-avatar="${a}">${a}</button>`).join("")}</div></div>`).join("");
+ document.querySelectorAll(".avatar").forEach(b=>b.onclick=()=>{players[+b.dataset.player].avatar=b.dataset.avatar;buildSetup()});
+}
+function startGame(){hostTalk("Pengembaraan bermula! Dengar soalan Ayah dan pilih jawapan yang paling tepat.");players.forEach((p,i)=>{p.name=$("name"+i).value.trim()||`Pemain ${i+1}`;p.pos=0;p.score=0});turn=0;die=0;questionIndex=0;gameOver=false;answered=false;questionPool=[...questions].sort(()=>Math.random()-.5);$("setup").classList.remove("active");$("game").classList.add("active");buildBoard();render();say("Selamat datang ke pengembaraan!");}
+function buildBoard(){const b=$("board");b.innerHTML="";for(let n=1;n<=50;n++){let tile=document.createElement("div");tile.className="tile"+(n===1?" start":"")+(n===50?" finish":"")+([7,14,23,31,42].includes(n)?" special":"");let sym=n===1?"🚩":n===50?"🏆":({7:"🌉",14:"🐊",23:"🎁",31:"🏰",42:"🌪️"}[n]||(["🌴","🌼","🪵","🐚","🍄"][n%5]));tile.id="tile"+n;let band=Math.floor((n-1)/10),offset=(n-1)%10;tile.style.gridRow=String(5-band);tile.style.gridColumn=String(band%2===0?offset+1:10-offset);tile.innerHTML=`<span class="num">${n}</span><span class="symbol">${sym}</span><div class="tokens" id="tokens${n}"></div>`;b.appendChild(tile)}}
+function render(){players.forEach((p,i)=>{if(p.pos>0){let t=$("tokens"+p.pos);if(t)t.innerHTML+=`<span title="${p.name}">${p.avatar}</span>`}});$("activeAvatar").textContent=players[turn].avatar;$("activeName").textContent=players[turn].name;$("turnInfo").textContent=`Giliran pemain ${turn+1} · Petak ${players[turn].pos} / 50`;$("scores").innerHTML=players.map((p,i)=>`<div class="mini-score">${p.avatar} ${escapeHtml(p.name)}<b>${p.pos}/50</b></div>`).join("");}
+function clearTokens(){for(let n=1;n<=50;n++)$("tokens"+n).innerHTML=""}
+function showQuestion(){let q=questionPool[questionIndex%questionPool.length];hostTalk("Dengar baik-baik ya. Ayah yakin kamu boleh jawab!");$("subject").textContent=q[0].toUpperCase();$("question").textContent=q[1];$("answers").innerHTML=q[2].map((a,i)=>`<button class="answer" data-answer="${i}">${["A","B","C"][i]}. ${a}</button>`).join("");document.querySelectorAll(".answer").forEach(b=>b.onclick=()=>answer(+b.dataset.answer));say("Soalan "+q[0]+". "+q[1]+" Pilihan A, "+q[2][0]+". Pilihan B, "+q[2][1]+". Pilihan C, "+q[2][2]);}
+function roll(){if(die||gameOver)return;die=Math.floor(Math.random()*6)+1;let el=$("dice");el.classList.remove("ready");el.classList.add("rolling");$("rollBtn").disabled=true;$("rollBtn").textContent="MENYEDIAKAN SOALAN...";setTimeout(()=>{el.classList.remove("rolling");el.textContent=["⚀","⚁","⚂","⚃","⚄","⚅"][die-1];showQuestion();$("feedback").className="feedback";$("feedback").textContent=`Dadu menunjukkan ${die}! Jawab soalan Ayah dengan betul untuk bergerak.`;$("rollBtn").textContent="JAWAB SOALAN DI ATAS";},700);sound(440,.12)}
+function answer(n){
+ if(!die||answered||gameOver)return;
+ let q=questionPool[questionIndex%questionPool.length];
+ if(n===q[3]){
+  answered=true;players[turn].score++;hostTalk(["Hebat! Jawapan kamu betul. Ayah bangga!","Wah, bijaknya! Teruskan pengembaraan!","Syabas! Kamu memang pengembara yang hebat!"][Math.floor(Math.random()*3)]);$("feedback").className="feedback good";
+  $("feedback").textContent="🎉 "+q[4];$("penaltyActions").innerHTML="";
+  document.querySelectorAll(".answer").forEach(b=>b.disabled=true);sound(660,.12);
+  setTimeout(()=>movePlayer(),850);
+ }else{
+  $("feedback").className="feedback bad";
+  hostTalk("Belum tepat. Tak mengapa, cuba fikir semula dan pilih tindakan kamu.");
+  sound(180,.18);
+  if(passOriginal>=0){
+   $("feedback").textContent="Kedua-dua pemain belum berjaya. Pemain asal dikenakan penalti undur 2 petak.";
+   $("penaltyActions").innerHTML="";
+   setTimeout(()=>penalizeOriginal(),1100);
+  }else{
+   $("feedback").textContent="Aduh, jawapan belum tepat! Pilih tindakan seterusnya.";
+   document.querySelectorAll(".answer").forEach(b=>b.disabled=true);
+   $("penaltyActions").innerHTML='<button class="penalty-btn retreat" onclick="retreatPlayer()">↩️ UNDUR 2 PETAK</button><button class="penalty-btn pass" onclick="passToNext()">🎯 PASS SOALAN</button>';
+  }
+ }
+}
+function retreatPlayer(){
+ if(passOriginal>=0||answered)return;
+ hostTalk("Tidak mengapa! Kadang-kadang kita perlu berundur untuk cuba lagi.");
+ $("penaltyActions").innerHTML="";
+ $("feedback").textContent=players[turn].name+" undur 2 petak kerana jawapan salah.";
+ animateBack(turn,2,()=>{questionIndex++;die=0;answered=false;setTimeout(nextTurn,500)});
+}
+function passToNext(){
+ if(passOriginal>=0||answered)return;
+ hostTalk("Soalan ini Ayah berikan kepada pemain seterusnya. Bantu kawan kamu!");
+ passOriginal=turn;passUsed=true;turn=(turn+1)%3;answered=false;
+ $("penaltyActions").innerHTML="";
+ $("feedback").className="feedback";
+ $("feedback").textContent="Soalan dipass kepada "+players[turn].name+"! Jika betul, pemain ini bergerak. Jika salah, pemain asal undur 2 petak.";
+ $("activeAvatar").textContent=players[turn].avatar;
+ $("activeName").textContent=players[turn].name+" (SOALAN PASS)";
+ $("turnInfo").textContent="Peluang menjawab soalan yang sama";
+ document.querySelectorAll(".answer").forEach(b=>b.disabled=false);
+}
+function penalizeOriginal(){
+ let original=passOriginal;
+ passOriginal=-1;passUsed=false;
+ animateBack(original,2,()=>{turn=original;questionIndex++;die=0;answered=false;setTimeout(nextTurn,500)});
+}
+function animateBack(playerIndex,spaces,done){
+ let p=players[playerIndex],count=0,target=Math.max(0,p.pos-spaces);
+ const timer=setInterval(()=>{if(p.pos>target){p.pos--;count++;clearTokens();render();sound(210,.06)}else{clearInterval(timer);done()}},250);
+}
+function movePlayer(){
+ let p=players[turn],target=Math.min(50,p.pos+die),steps=0;
+ const timer=setInterval(()=>{
+  if(p.pos<target){p.pos++;steps++;clearTokens();render();sound(330+steps*20,.035)}
+  else{
+   clearInterval(timer);let msg=`${p.name} bergerak ${die} petak ke hadapan!`;
+   if(p.pos===7){p.pos=Math.min(50,p.pos+3);msg+=" Jambatan ajaib! Maju 3 petak."}
+   if(p.pos===14){p.pos=Math.max(0,p.pos-2);msg+=" Awas buaya! Undur 2 petak."}
+   if(p.pos===23){p.score+=2;msg+=" Harta karun! Bonus 2 bintang."}
+   if(p.pos===31){p.pos=Math.min(50,p.pos+3);msg+=" Tangga istana! Maju 3 petak."}
+   if(p.pos===42){p.pos=Math.max(0,p.pos-3);msg+=" Pusaran angin! Undur 3 petak."}
+   clearTokens();render();if(p.pos>=50){gameOver=true;winner(p);return}
+   $("feedback").className="feedback good";$("feedback").textContent=msg;
+   $("penaltyActions").innerHTML="";questionIndex++;die=0;answered=false;passOriginal=-1;passUsed=false;
+   setTimeout(nextTurn,1600);
+  }
+ },300);
+}
+function nextTurn(){turn=(turn+1)%3;hostTalk("Sekarang giliran "+players[turn].name+". Sedia untuk lontar dadu?",false);passOriginal=-1;passUsed=false;$("dice").textContent="🎲";$("dice").classList.add("ready");$("rollBtn").disabled=false;$("rollBtn").textContent="🎲 LONTAR DADU";$("subject").textContent="SOALAN SETERUSNYA";$("question").textContent=`Giliran ${players[turn].name}! Lontar dadu untuk cabaran seterusnya.`;$("answers").innerHTML="";$("penaltyActions").innerHTML="";$("feedback").className="feedback";$("feedback").textContent="Ayah sudah sedia. Semoga berjaya!";render()}
+function winner(p){hostTalk("Tahniah! Kamu juara Pulau Harta Karun!");$("modalbox").innerHTML=`<div class="confetti">${Array.from({length:30},(_,i)=>`<i style="left:${Math.random()*100}%;animation-delay:${Math.random()*2}s"></i>`).join("")}</div><div class="celebrate">${p.avatar} 🏆🎉</div><h2>TAHNIAH, ${escapeHtml(p.name.toUpperCase())}!</h2><p>Kamu berjaya sampai ke Pulau Harta Karun!</p><p>⭐ Bintang dikumpul: <b>${p.score}</b></p><button class="primary" onclick="restart()">🔁 MAIN LAGI</button> <button class="secondary" onclick="menu()">⌂ MENU UTAMA</button>`;$("modal").classList.add("show");sound(880,.3)}
+function restart(){$("modal").classList.remove("show");players.forEach(p=>{p.pos=0;p.score=0});turn=0;die=0;questionIndex=0;gameOver=false;answered=false;passOriginal=-1;passUsed=false;questionPool=[...questions].sort(()=>Math.random()-.5);clearTokens();render();nextTurn()}
+function menu(){$("modal").classList.remove("show");$("game").classList.remove("active");$("setup").classList.add("active");buildSetup()}
+function escapeHtml(s){return s.replace(/[&<>"']/g,c=>({"&":"&amp;","<":"&lt;",">":"&gt;",'"':"&quot;","'":"&#39;"}[c]))}
+function say(t){if("speechSynthesis"in window&&soundOn){speechSynthesis.cancel();let u=new SpeechSynthesisUtterance(t);u.lang="ms-MY";u.rate=.94;speechSynthesis.speak(u)}}
+let audioCtx;function sound(freq,dur){if(!soundOn)return;try{audioCtx=audioCtx||new(window.AudioContext||window.webkitAudioContext)();let o=audioCtx.createOscillator(),g=audioCtx.createGain();o.frequency.value=freq;o.connect(g);g.connect(audioCtx.destination);g.gain.setValueAtTime(.07,audioCtx.currentTime);g.gain.exponentialRampToValueAtTime(.001,audioCtx.currentTime+dur);o.start();o.stop(audioCtx.currentTime+dur)}catch(e){}}
+$("startBtn").onclick=startGame;$("rollBtn").onclick=roll;$("homeBtn").onclick=menu;$("fullBtn").onclick=()=>{if(!document.fullscreenElement)document.documentElement.requestFullscreen?.();else document.exitFullscreen?.()};$("soundBtn").onclick=()=>{soundOn=!soundOn;$("soundBtn").textContent=soundOn?"🔊 Bunyi ON":"🔇 Bunyi OFF";if(!soundOn&&"speechSynthesis"in window)speechSynthesis.cancel()};buildSetup();
+</script>
+</body>
+</html>
